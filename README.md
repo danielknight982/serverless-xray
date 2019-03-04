@@ -14,4 +14,4 @@ The following is what you will need to get ready for March 5th's St. Louis Serve
 
     ```npm install```
 
-You may now deploy to Lambda.
+You may now deploy to Lambda.  You'll need to deploy each project seperatly.
