@@ -57,5 +57,10 @@ module.exports.sayHello = (event, context, callback) => {
     This will assemble the message and return.
   */
   module.exports.buildHelloMessage = (event, context, callback) => {
+    //Just for fun, lets trigger and error if the value starts with Z.
+    if(event.value.charAt(0) == "Z"){
+      throw new Error("Can't say hello to things that start with 'Z'.");
+    }
+
     callback(null, { message: "Hello, " + event.value});
   };
