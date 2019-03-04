@@ -1,0 +1,9 @@
+{
+    "name": "serverless-meetup-helloworld",
+    "version": "1.0.0",
+    "dependencies": {
+        "aws-sdk": "^2.413.0",
+        "aws-xray-sdk": "^2.2.0",
+        "serverless-plugin-tracing": "^2.0.0"
+    }
+}

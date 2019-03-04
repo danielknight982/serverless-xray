@@ -17,6 +17,7 @@ provider:
       Action:
         - "xray:PutTraceSegments"
         - "xray:PutTelemetryRecords"
+        - "lambda:InvokeFunction"
       Resource:
         - "*"
 plugins:
@@ -28,7 +29,6 @@ functions:
     handler: handler.helloWorld
     healthcheck:
       tracing: true
-    # The `events` block defines how to trigger the handler.helloWorld code
     events:
       - http:
           path: hello-world
@@ -38,9 +38,26 @@ functions:
     handler: error.thisHasError
     healthcheck:
       tracing: true
-    # The `events` block defines how to trigger the handler.helloWorld code
     events:
       - http:
           path: hello-error
           method: get
           cors: true
+  
+  sayHello:
+    handler: message.sayHello
+    healthcheck:
+      tracing: true
+    events:
+      - http:
+          path: message
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                value: false
+  buildHelloMessage:
+    handler: message.buildHelloMessage
+    healthcheck:
+      tracing: true
