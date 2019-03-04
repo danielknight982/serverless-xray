@@ -1,3 +1,5 @@
+'use strict';
+
 var AWSXRay = require('aws-xray-sdk-core');
 var aws = AWSXRay.captureAWS(require('aws-sdk'));
 
