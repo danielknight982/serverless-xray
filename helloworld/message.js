@@ -1,7 +1,7 @@
 'use strict';
 
-var AWSXRay = require('aws-xray-sdk-core');
-var aws = AWSXRay.captureAWS(require('aws-sdk'));
+var awsxray = require('aws-xray-sdk-core');
+var aws = awsxray.captureAWS(require('aws-sdk'));
 
 var lambda = new aws.Lambda({
   region: 'us-east-1' //change to your region

@@ -1,7 +1,7 @@
 'use strict';
 
-const AWSXRay = require('aws-xray-sdk-core');
-const aws = AWSXRay.captureAWS(require('aws-sdk'));
+const awsxray = require('aws-xray-sdk-core');
+const aws = awsxray.captureAWS(require('aws-sdk'));
 const dynamo = new aws.DynamoDB.DocumentClient();
 const uuidv4 = require('uuid/v4')
 
