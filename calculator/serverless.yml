@@ -1,0 +1,95 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: serverless-calculator
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs6.10
+  tracing: true
+  iamRoleStatements:
+    - Effect: "Allow" # xray permissions (required) 
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+        - "lambda:InvokeFunction"
+      Resource:
+        - "*"
+plugins:
+  - serverless-plugin-tracing
+
+# The `functions` block defines what code to deploy
+functions:
+  index:
+    handler: calculator.index
+    healthcheck:
+      tracing: true
+    events:
+      - http:
+          path: calculate
+          method: get
+          cors: true
+  calculate:
+    handler: calculator.calc
+    healthcheck:
+      tracing: true
+    events:
+      - http:
+          path: calculate
+          method: post
+          cors: true
+  add:
+    handler: calculator.add
+    healthcheck:
+      tracing: true
+  sub:
+    handler: calculator.sub
+    healthcheck:
+      tracing: true
+  mult:
+    handler: calculator.mult
+    healthcheck:
+      tracing: true
+  div:
+    handler: calculator.div
+    healthcheck:
+      tracing: true
+  saveToDynamo:
+    handler: calculator.saveToDynamo
+    healthcheck:
+      tracing: true
+resources:
+  Resources:
+    DynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: expressions
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    DynamoDBIamPolicy:
+      Type: AWS::IAM::Policy
+      DependsOn: DynamoDbTable
+      Properties:
+        PolicyName: lambda-dynamodb
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+              Resource: arn:aws:dynamodb:*:*:table/expressions
+        Roles:
+          - Ref: IamRoleLambdaExecution
