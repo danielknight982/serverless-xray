@@ -167,7 +167,7 @@ module.exports.sub = (event, context, callback) => {
 }
 
 /*
-  Do Multiply
+  Do Multiplication
 */
 module.exports.mult = (event, context, callback) => {
   //Calculate
